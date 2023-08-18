@@ -1,67 +1,35 @@
-const Header = (props) => {
-  return (
-      <>
-        <h1>{props.course}</h1>
-      </>
-  )
-}
-
-const Part = (props) => {
-  return (
-      <>
-        <p>
-          {props.p} {props.e}
-        </p>
-      </>
-  )
-}
-
-const Content = (props) => {
-  return (
-      <div>
-        <Part p={props.parts[0].name} e={props.parts[0].exercises}/>
-        <Part p={props.parts[1].name} e={props.parts[1].exercises}/>
-        <Part p={props.parts[2].name} e={props.parts[2].exercises}/>
-      </div>
-  )
-}
-
-const Total = (props) => {
-  const [p1, p2, p3] = props.parts
-  return (
-      <>
-        <p>Number of exercises {p1.exercises + p2.exercises + p3.exercises}</p>
-      </>
-  )
-}
+import {useState, useEffect} from "react";
+import Searchbar from "./components/Searchbar";
+import countryService from './services/countries'
+import Countries from "./components/Countries";
 
 const App = () => {
-  const course = {
-    name: 'Half Stack application development',
-    parts: [
-      {
-        name: 'Fundamentals of React',
-        exercises: 10
-      },
+    const [searchTerm, setSearchTerm] = useState('')
+    const [countries, setCountries] = useState([])
 
-      {
-        name: 'Using props to pass data',
-        exercises: 7
-      },
-      {
-        name: 'State of a component',
-        exercises: 14
-      }
-    ]
+    useEffect(() => {
+        countryService
+            .getAll()
+            .then(countries => {
+                setCountries(countries)
+            })
+    }, [])
 
-  }
-  return (
-      <div>
-        <Header course={course.name}/>
-        <Content parts={course.parts}/>
-        <Total parts={course.parts}/>
-      </div>
-  )
+    const handleSearchChange = (event) => {
+        setSearchTerm(event.target.value)
+    }
+
+    const filteredCountries = countries.filter(country => country.name.common.toLowerCase().includes(searchTerm.toLowerCase()))
+
+    const showDetails = (name) => setSearchTerm(name)
+
+
+    return (
+        <div>
+            <Searchbar handleSearchChange={handleSearchChange}/>
+            <Countries countries={filteredCountries} showDetails={showDetails}/>
+        </div>
+    )
 }
 
 export default App

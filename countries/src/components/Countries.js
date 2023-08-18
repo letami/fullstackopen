@@ -10,7 +10,7 @@ const Countries = ({countries, showDetails}) => {
     return (
         <div>
             {countries.map(country =>
-                <p key={country.tld}>{country.name.common} <button onClick={showDetails}>show</button></p>
+                <p key={country.tld}>{country.name.common} <button onClick={() => showDetails(country.name.common)}>show</button></p>
             )}
         </div>
     )
