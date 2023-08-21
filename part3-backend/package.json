@@ -1,0 +1,11 @@
+{
+  "name": "part3-backend",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: not test specified\" && exit 1"
+  },
+  "author": "Julian Le",
+  "license": "TUM"
+}
