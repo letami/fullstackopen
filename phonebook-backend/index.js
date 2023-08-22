@@ -1,8 +1,10 @@
 const express = require('express')
-const {request, response} = require("express");
+const morgan = require('morgan')
+
 const app = express()
 
 app.use(express.json())
+app.use(morgan('tiny'))
 
 let persons = [
     {
@@ -27,7 +29,7 @@ let persons = [
     }
 ]
 
-app.get('/', (request, response) => {
+app.get('/', function (request, response) {
     response.send('<h1>Welcome to the phonebook backend</h1>')
 })
 
